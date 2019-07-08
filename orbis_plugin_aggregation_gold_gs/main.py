@@ -1,16 +1,18 @@
+# -*- coding: utf-8 -*-
+
 import glob
 import os
 import urllib
 
-from orbis import app
-import orbis_plugin_aggregation_dbpedia_entity_types as dbpedia_entity_types
-from orbis.plugins.aggregation import monocle
+from orbis_eval import app
+from orbis_plugin_aggregation_dbpedia_entity_types import Main as dbpedia_entity_types
+from orbis_plugin_aggregation_monocle import Main as monocle
 
 
-class GoldGS(object):
+class Main(object):
 
     def __init__(self, rucksack, path=None):
-        super(GoldGS, self).__init__()
+        super(Main, self).__init__()
         self.rucksack = rucksack
 
         if not path:
@@ -26,7 +28,7 @@ class GoldGS(object):
     def run(self):
         gold = {}
         for file_dir in glob.glob(os.path.abspath(os.path.join(self.gold_path, '*.gs'))):
-            print(f">>>>> FILE DIR: {file_dir}")
+            # print(f">>>>> FILE DIR: {file_dir}")
 
             with open(file_dir) as open_file:
                 for line in open_file.readlines():
