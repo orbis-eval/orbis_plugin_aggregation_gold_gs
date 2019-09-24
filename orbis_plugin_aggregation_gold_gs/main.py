@@ -8,6 +8,9 @@ from orbis_eval import app
 from orbis_plugin_aggregation_dbpedia_entity_types import Main as dbpedia_entity_types
 from orbis_plugin_aggregation_monocle import Main as monocle
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class Main(object):
 
@@ -46,13 +49,13 @@ class Main(object):
                     score = nuggets[4]
                     type_url = nuggets[5]
                     surface_form = self.corpus[file_number][start:end]
-                    # app.logger.debug(f"Processing: {url}: {surface_form} ({type_url})")
+                    # logger.debug(f"Processing: {url}: {surface_form} ({type_url})")
                     url = monocle.apply_mapping(self.mapping, url)
                     in_lense = monocle.apply_lense(self.lense, url)
                     to_filter = monocle.apply_filter(self.filter_, surface_form)
                     entity_type = dbpedia_entity_types.normalize_entity_type(type_url.split("/")[-1])
                     if in_lense and not to_filter:
-                        app.logger.debug(f"Adding {surface_form}")
+                        logger.debug(f"Adding {surface_form}")
                         gold[file_number] = gold.get(file_number, [])
                         gold[file_number].append({
                             'id': file_number,
@@ -65,7 +68,7 @@ class Main(object):
                             'surfaceForm': surface_form
                         })
                     else:
-                        # app.logger.debug(f"Not adding to gold: {surface_form}")
+                        # logger.debug(f"Not adding to gold: {surface_form}")
                         pass
-                    # app.logger.debug(f"gefile_numbert_gold: {gold[file_number]}")
+                    # logger.debug(f"gefile_numbert_gold: {gold[file_number]}")
         return gold
