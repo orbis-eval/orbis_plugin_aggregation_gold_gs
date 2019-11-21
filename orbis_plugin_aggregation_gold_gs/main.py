@@ -35,7 +35,7 @@ class Main(object):
 
         return gold_standard
 
-    def get_files(gold_path):
+    def get_files(self, gold_path):
         for file_dir in glob.glob(os.path.abspath(os.path.join(gold_path, '*.gs'))):
             yield file_dir
 
@@ -59,7 +59,7 @@ class Main(object):
         to_filter = monocle.apply_filter(filter_, surface_form)
         entity_type = dbpedia_entity_types.normalize_entity_type(type_url.split("/")[-1])
 
-    def extract_gold(file_dir, corpus, mapping, lense, filter_):
+    def extract_gold(self, file_dir, corpus, mapping, lense, filter_):
         gold = {}
 
         with open(file_dir) as open_file:
