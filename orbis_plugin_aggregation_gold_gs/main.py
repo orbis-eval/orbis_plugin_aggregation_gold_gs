@@ -23,7 +23,7 @@ class Main(object):
         self.corpus = self.rucksack.open['data']['corpus']
 
     def run(self):
-
+        gold_standard = {}
         for file_dir in self.get_files(self.gold_path):
             gold_standard = self.extract_gold(
                 file_dir,
@@ -39,8 +39,8 @@ class Main(object):
         for file_dir in glob.glob(os.path.abspath(os.path.join(gold_path, '*.gs'))):
             yield file_dir
 
-    def map_items():
-        # gs file structuring:
+    def map_items(self, line, corpus, mapping, lense, filter_):
+        # gs file structure:
         # ---------------------
         #  0    1    2   3    4    5
         # doc|start|end|url|score|type|
@@ -52,12 +52,16 @@ class Main(object):
         url = urllib.parse.unquote(nuggets[3])
         score = nuggets[4]
         type_url = nuggets[5]
+
         surface_form = corpus[file_number][start:end]
         # logger.debug(f"Processing: {url}: {surface_form} ({type_url})")
         url = monocle.apply_mapping(mapping, url)
         in_lense = monocle.apply_lense(lense, url)
         to_filter = monocle.apply_filter(filter_, surface_form)
+
         entity_type = dbpedia_entity_types.normalize_entity_type(type_url.split("/")[-1])
+
+        return file_number, start, end, url, score, type_url, surface_form, in_lense, to_filter, entity_type
 
     def extract_gold(self, file_dir, corpus, mapping, lense, filter_):
         gold = {}
@@ -70,19 +74,7 @@ class Main(object):
                 #  0    1    2   3    4    5
                 # doc|start|end|url|score|type|
 
-                nuggets = line.split()
-                file_number = nuggets[0]
-                start = int(nuggets[1])
-                end = int(nuggets[2])
-                url = urllib.parse.unquote(nuggets[3])
-                score = nuggets[4]
-                type_url = nuggets[5]
-                surface_form = corpus[file_number][start:end]
-                # logger.debug(f"Processing: {url}: {surface_form} ({type_url})")
-                url = monocle.apply_mapping(mapping, url)
-                in_lense = monocle.apply_lense(lense, url)
-                to_filter = monocle.apply_filter(filter_, surface_form)
-                entity_type = dbpedia_entity_types.normalize_entity_type(type_url.split("/")[-1])
+                file_number, start, end, url, score, type_url, surface_form, in_lense, to_filter, entity_type = self.map_items(line, corpus, mapping, lense, filter_)
 
                 if in_lense and not to_filter:
                     logger.debug(f"Adding {surface_form}")

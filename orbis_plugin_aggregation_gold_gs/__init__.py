@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 __name__ = "orbis_plugin_aggregation_gold_gs"
-__version__ = "2.2"
+__version__ = "2.2.4"
 __author__ = "fabod"
 __year__ = "2019"
 __description__ = "The gold_gs aggregation plugin for Orbis"
