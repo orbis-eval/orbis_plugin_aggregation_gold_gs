@@ -45,7 +45,7 @@ class Main(object):
         #  0    1    2   3    4    5
         # doc|start|end|url|score|type|
 
-        nuggets = line.split()
+        nuggets = line.strip().split("\t")
         file_number = nuggets[0]
         start = int(nuggets[1])
         end = int(nuggets[2])
@@ -53,7 +53,11 @@ class Main(object):
         score = nuggets[4]
         type_url = nuggets[5]
 
-        surface_form = corpus[file_number][start:end]
+        try:
+            surface_form = nuggets[6]
+        except:
+            print("No surface form in gold")
+            surface_form = corpus[file_number][start:end]
         # logger.debug(f"Processing: {url}: {surface_form} ({type_url})")
         url = monocle.apply_mapping(mapping, url)
         in_lense = monocle.apply_lense(lense, url)
