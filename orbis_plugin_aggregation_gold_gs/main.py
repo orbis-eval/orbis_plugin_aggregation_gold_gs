@@ -45,7 +45,7 @@ class Main(object):
         #  0    1    2   3    4    5
         # doc|start|end|url|score|type|
 
-        nuggets = line.strip().split("\t")
+        nuggets = line.strip().split()
         file_number = nuggets[0]
         start = int(nuggets[1])
         end = int(nuggets[2])
