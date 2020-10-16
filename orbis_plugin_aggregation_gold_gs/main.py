@@ -42,8 +42,8 @@ class Main(object):
     def map_items(self, line, corpus, mapping, lense, filter_):
         # gs file structure:
         # ---------------------
-        #  0    1    2   3    4    5
-        # doc|start|end|url|score|type|
+        #  0    1    2   3    4    5        6
+        # doc|start|end|url|score|type|surface_form
 
         nuggets = line.strip().split("\t")
         file_number = nuggets[0]
@@ -75,10 +75,12 @@ class Main(object):
 
                 # gs file structuring:
                 # ---------------------
-                #  0    1    2   3    4    5
-                # doc|start|end|url|score|type|
+                #  0    1    2   3    4    5        6
+                # doc|start|end|url|score|type|surface_form
 
-                file_number, start, end, url, score, type_url, surface_form, in_lense, to_filter, entity_type = self.map_items(line, corpus, mapping, lense, filter_)
+                file_number, start, end, url, score, \
+                type_url, surface_form, in_lense, to_filter, \
+                entity_type = self.map_items(line, corpus, mapping, lense, filter_)
 
                 if in_lense and not to_filter:
                     logger.debug(f"Adding {surface_form}")
