@@ -1,1 +1,1 @@
-# Gold Standard .gs File Aggregation Plugin for Orbis
+# Gold File Aggregation Plugin for Orbis
