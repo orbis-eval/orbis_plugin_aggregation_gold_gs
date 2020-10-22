@@ -21,6 +21,6 @@ class JsonHandler(GoldFileHandler):
         files = glob.glob(os.path.abspath(os.path.join(self.gold_path, '*.json.gz')))
         if len(files) == 1:
             with gzip.open(files[0], "r") as fgzip:
-                return load(fgzip)["gold_documents"]
+                return load(fgzip)
         else:
             raise FileNotFoundError(f'json.gz file not found in {self.gold_path}')
